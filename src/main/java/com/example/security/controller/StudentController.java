@@ -1,6 +1,7 @@
 package com.example.security.controller;
 
 import com.example.security.entity.Student;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,11 +19,13 @@ public class StudentController {
     );
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<Student> getStudents() {
         return students;
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('student:write', 'student:read')")
     public void createStudent(@RequestBody Student student) {
         System.out.printf("Create Student %s", student);
     }

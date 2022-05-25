@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -19,6 +20,7 @@ import static com.example.security.enums.Role.*;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     private PasswordEncoder passwordEncoder;
@@ -35,8 +37,8 @@ public class SecurityConfig {
                         auth
                                 .antMatchers("/").permitAll()
 //                                .antMatchers("/v1/**").hasRole(STUDENT.name())
-                                .antMatchers(HttpMethod.GET, "/v1/**").hasAuthority(STUDENT_READ.getPermission())
-                                .antMatchers(HttpMethod.POST, "/v1/**").hasAuthority(STUDENT_WRITE.getPermission())
+//                                .antMatchers(HttpMethod.GET, "/v1/**").hasAuthority(STUDENT_READ.getPermission())
+//                                .antMatchers(HttpMethod.POST, "/v1/**").hasAuthority(STUDENT_WRITE.getPermission())
                                 .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .build();
